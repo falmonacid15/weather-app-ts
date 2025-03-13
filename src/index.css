@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gradient: #8ecae6;
+
+    --background: 208 25% 97%; /* Fondo claro */
+    --foreground: 208 15% 10%; /* Texto oscuro */
+
+    --muted: 208 20% 90%;
+    --muted-foreground: 208 10% 30%;
+
+    --popover: 208 25% 95%;
+    --popover-foreground: 208 15% 10%;
+
+    --card: 208 25% 95%;
+    --card-foreground: 208 15% 10%;
+
+    --border: 208 20% 80%;
+    --input: 208 20% 85%;
+
+    --primary: 208 90% 40%; /* Azul brillante */
+    --primary-foreground: 208 20% 95%; /* Texto claro sobre primario */
+
+    --secondary: 208 20% 85%;
+    --secondary-foreground: 208 10% 10%;
+
+    --accent: 208 30% 90%;
+    --accent-foreground: 208 10% 10%;
+
+    --destructive: 0 50% 90%; /* Rojo claro */
+    --destructive-foreground: 0 40% 10%; /* Texto oscuro sobre destructivo */
+
+    --ring: 208 90% 50%; /* Azul para efectos de foco */
+  }
+
+  .dark {
+    --gradient: #16bffd;
+
+    --background: 208 63.699999999999996% 4.32%;
+    --foreground: 208 9.8% 97.7%;
+
+    --muted: 208 49% 16.200000000000003%;
+    --muted-foreground: 208 9.8% 55.4%;
+
+    --popover: 208 45.4% 7.0200000000000005%;
+    --popover-foreground: 208 9.8% 97.7%;
+
+    --card: 208 45.4% 7.0200000000000005%;
+    --card-foreground: 208 9.8% 97.7%;
+
+    --border: 208 49% 16.200000000000003%;
+    --input: 208 49% 16.200000000000003%;
+
+    --primary: 208 98% 54%;
+    --primary-foreground: 208 9.8% 5.4%;
+
+    --secondary: 208 49% 16.200000000000003%;
+    --secondary-foreground: 208 9.8% 97.7%;
+
+    --accent: 208 49% 16.200000000000003%;
+    --accent-foreground: 208 9.8% 97.7%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 208 9.8% 97.7%;
+
+    --ring: 208 98% 54%;
+  }
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--accent)) transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--accent));
+  border-radius: 35px;
+  border: 3px none transparent;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
