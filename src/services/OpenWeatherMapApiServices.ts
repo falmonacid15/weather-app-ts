@@ -34,6 +34,10 @@ export const oneCallFetchWeather = async (
   lang: string,
   units: "metric" | "imperial" | "standard"
 ) => {
+  if (lat === undefined || lon === undefined || isNaN(lat) || isNaN(lon)) {
+    throw new Error("Invalid latitude or longitude values");
+  }
+
   try {
     const { data: oneCallResponse } = await axios.get<OneCallApiResponse>(
       `${baseUrlOneCall}?appid=${

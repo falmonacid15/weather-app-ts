@@ -6,6 +6,7 @@ import Layout from "./components/shared/Layout";
 import { useWeatherAppStore } from "./stores/WeatherAppStore";
 import { ScrollContainer } from "./components/ScrollShadow";
 import WelcomeMessage from "./components/WelcomeMessage";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const App: React.FC = () => {
   const { location, currentData, dailyData, hourlyData } = useWeatherAppStore();
@@ -14,6 +15,7 @@ const App: React.FC = () => {
 
   return (
     <Layout>
+      <ReactQueryDevtools />
       <div className="h-[80vh] p-1 md:p-1">
         {currentData && dailyData ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
