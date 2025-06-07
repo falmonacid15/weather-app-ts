@@ -1,50 +1,51 @@
-# React + TypeScript + Vite
+# Weather App TS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Weather App TS es una aplicación para consultar los datos climáticos de cualquier ciudad del mundo. Permite visualizar el pronóstico actual, diario y horario, y ofrece opciones de personalización como el cambio de unidades de temperatura y el idioma de la interfaz.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Consulta el clima actual, pronóstico diario y horario de cualquier ciudad.
+- Cambia entre grados Celsius (°C) y Fahrenheit (°F).
+- Interfaz multilenguaje: español e inglés.
+- Todos los componentes y la interfaz de usuario han sido construidos a mano, sin frameworks de UI externos.
+- Búsqueda de ciudades con autocompletado.
+- Soporte para geolocalización.
 
-## Expanding the ESLint configuration
+## Instalación
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clona el repositorio:
 
-- Configure the top-level `parserOptions` property like this:
+   ````bash
+   git clone https://github.com/tu-usuario/weather-app-ts.git
+   cd weather-app-ts```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+   ````
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Instala las dependencias:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+   ````bash
+   npm install```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   ````
+
+3. Configurar las variables de entorno:
+   - Copia el archivo .env.example a .env y agrega tus claves de API.
+4. Ejecuta la aplicación:
+   ````bash
+   npm start```
+   ````
+
+## Uso
+
+1. Busca una ciudad en el campo de búsqueda para ver su clima.
+2. Cambia entre grados Celsius y Fahrenheit en la configuración.
+3. Selecciona el idioma en la configuración.
+
+## Tecnologías utilizadas
+
+- React + TypeScript
+- Zustand para gestión de estado
+- React Query para manejo de datos remotos
+- TailwindCSS para estilos
+- i18next para internacionalización
+- API de OpenWeatherMap y WeatherAPI

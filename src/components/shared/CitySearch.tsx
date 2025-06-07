@@ -3,7 +3,6 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "../ui/input";
-import { useQuery } from "react-query";
 import { useWeatherAppStore } from "@/stores/WeatherAppStore";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,6 +11,7 @@ import {
 } from "@/services/OpenWeatherMapApiServices";
 import { List as Cities, List } from "@/interfaces/FindCitiesApiResponse";
 import WeatherIcon from "../WeatherIcon";
+import { useQuery } from "@tanstack/react-query";
 
 export function CitySearch() {
   const [input, setInput] = useState("");
@@ -35,46 +35,20 @@ export function CitySearch() {
     enabled: debouncedInput.length > 0,
   });
 
-  const { refetch } = useQuery({
+  const { data: forecastData, refetch } = useQuery({
     queryKey: ["forecast"],
-    queryFn: () =>
-      oneCallFetchWeather(
-        geoLocation?.lat as number,
-        geoLocation?.lon as number,
+    queryFn: () => {
+      if (!geoLocation?.lat || !geoLocation?.lon) {
+        throw new Error("Geolocation coordinates are not available");
+      }
+      return oneCallFetchWeather(
+        geoLocation.lat,
+        geoLocation.lon,
         i18n.language,
         currentUnit || "standard"
-      ),
+      );
+    },
     enabled: !!geoLocation,
-    onSuccess: (data) => {
-      setCurrentData(data.oneCallResponse.current);
-      setDailyData(data.oneCallResponse.daily);
-      setHourlyData(data.oneCallResponse.hourly);
-      useWeatherAppStore.setState((state) => ({
-        location: state.location
-          ? {
-              ...state.location,
-              lat: data.locationResponse[0].lat as number,
-              lon: data.locationResponse[0].lon as number,
-              timezone: data.oneCallResponse.timezone as string,
-              region: data.locationResponse[0].region as string,
-              country: data.locationResponse[0].country as string,
-              timezone_offset: data.oneCallResponse.timezone_offset as number,
-              name: data.locationResponse[0].name,
-            }
-          : {
-              name: data.locationResponse[0].name,
-              region: data.locationResponse[0].region,
-              country: data.locationResponse[0].country,
-              lat: data.locationResponse[0].lat as number,
-              lon: data.locationResponse[0].lon as number,
-              timezone: data.oneCallResponse.timezone as string,
-              timezone_offset: data.oneCallResponse.timezone_offset as number,
-            },
-      }));
-    },
-    onError: (error) => {
-      console.error("Error fetching forecast", error);
-    },
   });
 
   const selectCity = async (city: List) => {
@@ -100,6 +74,38 @@ export function CitySearch() {
       refetch();
     }
   }, [currentUnit]);
+
+  useEffect(() => {
+    if (forecastData) {
+      setCurrentData(forecastData.oneCallResponse.current);
+      setDailyData(forecastData.oneCallResponse.daily);
+      setHourlyData(forecastData.oneCallResponse.hourly);
+      useWeatherAppStore.setState((state) => ({
+        location: state.location
+          ? {
+              ...state.location,
+              lat: forecastData.locationResponse[0].lat as number,
+              lon: forecastData.locationResponse[0].lon as number,
+              timezone: forecastData.oneCallResponse.timezone as string,
+              region: forecastData.locationResponse[0].region as string,
+              country: forecastData.locationResponse[0].country as string,
+              timezone_offset: forecastData.oneCallResponse
+                .timezone_offset as number,
+              name: forecastData.locationResponse[0].name,
+            }
+          : {
+              name: forecastData.locationResponse[0].name,
+              region: forecastData.locationResponse[0].region,
+              country: forecastData.locationResponse[0].country,
+              lat: forecastData.locationResponse[0].lat as number,
+              lon: forecastData.locationResponse[0].lon as number,
+              timezone: forecastData.oneCallResponse.timezone as string,
+              timezone_offset: forecastData.oneCallResponse
+                .timezone_offset as number,
+            },
+      }));
+    }
+  }, [forecastData]);
 
   return (
     <div className="relative z-10">
