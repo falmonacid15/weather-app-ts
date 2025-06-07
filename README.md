@@ -15,25 +15,25 @@ Weather App TS es una aplicación para consultar los datos climáticos de cualqu
 
 1. Clona el repositorio:
 
-   ````bash
-   git clone https://github.com/tu-usuario/weather-app-ts.git
-   cd weather-app-ts```
+   ```bash
+   git clone https://github.com/falmonacid15/weather-app-ts.git
+   cd weather-app-ts
 
-   ````
+   ```
 
 2. Instala las dependencias:
 
-   ````bash
-   npm install```
+   ```bash
+   npm install
 
-   ````
+   ```
 
 3. Configurar las variables de entorno:
    - Copia el archivo .env.example a .env y agrega tus claves de API.
 4. Ejecuta la aplicación:
-   ````bash
-   npm start```
-   ````
+   ```bash
+   npm run start
+   ```
 
 ## Uso
 

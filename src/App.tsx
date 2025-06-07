@@ -16,7 +16,7 @@ const App: React.FC = () => {
   return (
     <Layout>
       <ReactQueryDevtools />
-      <div className="h-[80vh] p-1 md:p-1">
+      <div className="p-1 md:p-1">
         {currentData && dailyData ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             <div className="lg:col-span-1 order-1 lg:order-2">
