@@ -86,11 +86,7 @@ export function OptionsDropdown() {
               <Button
                 onClick={() => changeUnit("metric")}
                 size="icon"
-                variant={
-                  currentUnit === "metric" || currentUnit === "standard"
-                    ? "default"
-                    : "outline"
-                }
+                variant={currentUnit === "metric" ? "default" : "outline"}
               >
                 °C
               </Button>

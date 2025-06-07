@@ -1,20 +1,46 @@
 import { Locate } from "lucide-react";
 import { Button } from "../ui/button";
 import { useWeatherAppStore } from "@/stores/WeatherAppStore";
-import { useState } from "react";
 import { useQuery } from "react-query";
-import { fetchWeatherForecast } from "@/services/WeatherApiServices";
+import { oneCallFetchWeather } from "@/services/OpenWeatherMapApiServices";
+import { useTranslation } from "react-i18next";
 
 export default function GeoLocation() {
-  const { setLocation, geoLocation, setGeoLocation } = useWeatherAppStore();
+  const { geoLocation, setGeoLocation, currentUnit } = useWeatherAppStore();
+  const { i18n } = useTranslation();
 
   const { refetch, isFetching } = useQuery({
     queryKey: ["weatherByGeo", geoLocation?.lat, geoLocation?.lon],
     queryFn: () =>
-      fetchWeatherForecast(`${geoLocation?.lat},${geoLocation?.lon}`),
+      oneCallFetchWeather(
+        geoLocation?.lat as number,
+        geoLocation?.lon as number,
+        i18n.language,
+        currentUnit
+      ),
     enabled: false,
     onSuccess: (data) => {
-      setLocation(data.location);
+      useWeatherAppStore.setState((state) => ({
+        location: state.location
+          ? {
+              ...state.location,
+              lat: data.locationResponse[0].lat as number,
+              lon: data.locationResponse[0].lon as number,
+              timezone: data.oneCallResponse.timezone as string,
+              region: data.locationResponse[0].region as string,
+              country: data.locationResponse[0].country as string,
+              timezone_offset: data.oneCallResponse.timezone_offset as number,
+            }
+          : {
+              name: data.locationResponse[0].name,
+              region: data.locationResponse[0].region,
+              country: data.locationResponse[0].country,
+              lat: data.locationResponse[0].lat as number,
+              lon: data.locationResponse[0].lon as number,
+              timezone: data.oneCallResponse.timezone as string,
+              timezone_offset: data.oneCallResponse.timezone_offset as number,
+            },
+      }));
     },
     onError: (error) => {
       console.error("Error fetching weather data:", error);
@@ -35,6 +61,7 @@ export default function GeoLocation() {
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
+    if (geoLocation) refetch();
   };
 
   return (

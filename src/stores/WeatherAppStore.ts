@@ -6,7 +6,7 @@ export const useWeatherAppStore = create<WeatherAppStore>()(
   devtools(
     persist(
       (set) => ({
-        currentUnit: "standard",
+        currentUnit: "metric",
         location: null,
         geoLocation: null,
         currentData: null,

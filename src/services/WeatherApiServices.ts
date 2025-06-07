@@ -25,7 +25,7 @@ export const autoCompleteSearch = async (search: string) => {
   }
 };
 
-export const fetchWeatherForecast = async (city: string, lang?: string) => {
+export const fetchWeatherForecast = async (city: string) => {
   try {
     const response = await axios.get<ForecastWeatherResponse>(
       `${forecastUrlBase}?key=${
