@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
     <nav className="bg-card text-white shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-evenly items-center">
         <div className="flex flex-col items-center">
-          <div className="relative flex items-center">
+          <div className="relative flex flex-col items-center">
             <h1 className="text-2xl font-semibold text-primary hidden sm:flex">
               WEATHER<span className="text-sm ml-1 text-foreground">APP</span>
             </h1>
