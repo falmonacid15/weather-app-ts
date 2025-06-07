@@ -1,6 +1,5 @@
 "use client";
 
-import { Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface UVIndexProps {
@@ -9,11 +8,9 @@ interface UVIndexProps {
 }
 
 export function UVIndex({ value }: UVIndexProps) {
-  // Convert 0-1 scale to 0-11 UV index scale
-  const uvIndex = Math.round(value * 11);
+  const uvIndex = Math.round(value);
   const { t } = useTranslation();
 
-  // Determine risk level
   const getRiskLevel = (index: number) => {
     if (index <= 2) return "uvLow";
     if (index <= 5) return "uvModerate";
@@ -23,12 +20,8 @@ export function UVIndex({ value }: UVIndexProps) {
   };
 
   const getIconPath = (index: number) => {
-    const iconUrl = `${
-      index > 0
-        ? `/icons/openweathermap/uv/uv-index-${value}.svg`
-        : `/icons/openweathermap/uv/uv-index-${1}.svg`
-    }`;
-    return iconUrl;
+    const clampedIndex = Math.min(Math.max(index, 1), 11);
+    return `/icons/openweathermap/uv/uv-index-${clampedIndex}.svg`;
   };
 
   const level = getRiskLevel(uvIndex);
@@ -56,10 +49,9 @@ export function UVIndex({ value }: UVIndexProps) {
         <div className="flex flex-col">
           <span className="text-lg text-center">{t(`${level}`)}</span>
           <div className="flex justify-center my-2">
-            {/* Background gradient */}
             <div className="relative w-full min-w-24">
               <div className="h-2.5 rounded-full overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-r from-green-400 via-yellow-400 via-orange-400 via-red-500 to-purple-500" />
+                <div className="w-full h-full bg-gradient-to-r from-green-400 via-orange-400  to-purple-500" />
               </div>
               <div
                 className="w-3 h-3 bg-white rounded-full absolute top-1/2 -translate-y-1/2 -translate-x-1/2 shadow-lg"

@@ -17,7 +17,6 @@ const App: React.FC = () => {
       <div className="h-[80vh] p-1 md:p-1">
         {currentData && dailyData ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {/* Current Weather Column */}
             <div className="lg:col-span-1 order-1 lg:order-2">
               <CurrentCard
                 location={location}
@@ -26,15 +25,13 @@ const App: React.FC = () => {
                 className="h-full"
               />
             </div>
-
-            {/* Hourly Forecast Column */}
             <div className="flex flex-col order-2 lg:order-3">
               <h2 className="text-2xl font-semibold text-primary mb-2">
                 {t("hourlyForecast")}
               </h2>
               <ScrollContainer>
                 <div className="space-y-2 px-2 py-4">
-                  {hourlyData.slice(0, 24).map((hour, index) => (
+                  {hourlyData?.slice(0, 24).map((hour, index) => (
                     <HourlyWeatherCard
                       key={index}
                       hourly={hour}
@@ -44,8 +41,6 @@ const App: React.FC = () => {
                 </div>
               </ScrollContainer>
             </div>
-
-            {/* Daily Forecast Column */}
             <div className="flex flex-col order-3 lg:order-1">
               <h2 className="text-2xl font-semibold text-primary mb-2">
                 {t("dailyForecast")}

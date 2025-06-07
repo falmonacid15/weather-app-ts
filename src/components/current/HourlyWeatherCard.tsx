@@ -4,7 +4,6 @@ import { Hourly } from "@/interfaces/OneCallApiResponse";
 import WeatherIcon from "../WeatherIcon";
 import { formatUnixTimestamp } from "@/lib/dateFormatter";
 import { useTranslation } from "react-i18next";
-import { UVIndex } from "../UvIndex";
 import { useWeatherAppStore } from "@/stores/WeatherAppStore";
 
 interface HourlyWeatherCardProps {
@@ -106,7 +105,6 @@ const HourlyWeatherCard = ({ className, hourly }: HourlyWeatherCardProps) => {
           </div>
         </div>
       </div>
-      {/* <UVIndex value={Math.round(hourly?.uvi as number)} /> */}
     </Card>
   );
 };

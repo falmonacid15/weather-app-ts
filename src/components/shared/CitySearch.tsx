@@ -12,10 +12,10 @@ import {
 } from "@/services/OpenWeatherMapApiServices";
 import { List as Cities, List } from "@/interfaces/FindCitiesApiResponse";
 import WeatherIcon from "../WeatherIcon";
-import GeoLocation from "./GeoLocation";
 
 export function CitySearch() {
   const [input, setInput] = useState("");
+  const [isListVisible, setIsListVisible] = useState(false);
   const { t, i18n } = useTranslation();
 
   const {
@@ -24,7 +24,6 @@ export function CitySearch() {
     setCurrentData,
     setDailyData,
     setHourlyData,
-    location,
     currentUnit,
   } = useWeatherAppStore();
 
@@ -60,6 +59,7 @@ export function CitySearch() {
               region: data.locationResponse[0].region as string,
               country: data.locationResponse[0].country as string,
               timezone_offset: data.oneCallResponse.timezone_offset as number,
+              name: data.locationResponse[0].name,
             }
           : {
               name: data.locationResponse[0].name,
@@ -77,13 +77,10 @@ export function CitySearch() {
     },
   });
 
-  const showResults = data;
-
   const selectCity = async (city: List) => {
     setGeoLocation({ lat: city.coord.lat, lon: city.coord.lon });
-    useWeatherAppStore.setState((state) => ({
-      location: { ...state.location, name: city.name },
-    }));
+    setIsListVisible(false);
+    setInput(city.name);
   };
 
   useEffect(() => {
@@ -106,7 +103,6 @@ export function CitySearch() {
 
   return (
     <div className="relative z-10">
-      {/* Input Field */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-card-foreground" />
         <Input
@@ -114,13 +110,12 @@ export function CitySearch() {
           placeholder={t("searchInputPlaceholder")}
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onFocus={() => setIsListVisible(true)}
           className="w-[300px] py-2 pl-10 pr-4 text-sm text-card-foreground border-2"
         />
       </div>
-
-      {/* Results Dropdown */}
       <AnimatePresence>
-        {showResults && (
+        {isListVisible && data && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}

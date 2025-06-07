@@ -6,10 +6,7 @@ import { useTranslation } from "react-i18next";
 import WeatherIcon from "../WeatherIcon";
 import { Current as CurrentData, Daily } from "@/interfaces/OneCallApiResponse";
 import { formatUnixTimestamp } from "@/lib/dateFormatter";
-import { Save } from "lucide-react";
-import { motion } from "framer-motion";
 import { useWeatherAppStore } from "@/stores/WeatherAppStore";
-import toast from "react-hot-toast";
 
 interface WeatherCardProps {
   currentData: CurrentData | null;
@@ -32,12 +29,7 @@ export default function CurrentCard({
   };
 
   const { t } = useTranslation();
-  const { addLocation, currentUnit } = useWeatherAppStore();
-
-  const handleSaveLocation = (location: Location) => {
-    toast.success("Location added successfully");
-    addLocation(location);
-  };
+  const { currentUnit } = useWeatherAppStore();
 
   return (
     <Card
@@ -51,19 +43,6 @@ export default function CurrentCard({
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-bold text-primary">{location?.name}</h1>
-          <motion.div
-            whileHover={{
-              scale: 1.09,
-              animation: "ease-in-out",
-            }}
-            whileTap={{
-              scale: 0.9,
-              animation: "ease-in-out",
-            }}
-            onClick={() => handleSaveLocation(location as Location)}
-          >
-            <Save className={cn("text-foreground", className)} />
-          </motion.div>
         </div>
         <p className="text-sm text-foreground/60">
           {location?.region}, {location?.country}
@@ -109,7 +88,7 @@ export default function CurrentCard({
               {t("tempMin")}
             </p>
             <p className="font-semibold text-lg">
-              {Math.round(dailyData[0].temp.min as number)}
+              {dailyData && Math.round(dailyData[0].temp.min as number)}
               {currentUnit === "metric" ? "°C" : "°F"}
             </p>
           </div>
@@ -125,7 +104,7 @@ export default function CurrentCard({
               {t("tempMax")}
             </p>
             <p className="font-semibold text-lg">
-              {Math.round(dailyData[0].temp.max as number)}
+              {dailyData && Math.round(dailyData[0].temp.max as number)}
               {currentUnit === "metric" ? "°C" : "°F"}
             </p>
           </div>
@@ -180,7 +159,7 @@ export default function CurrentCard({
               {t("precipitations")}
             </p>
             <p className="font-medium text-center">
-              {Math.round(dailyData[0].pop || 0 * 100)} %
+              {dailyData && Math.round(dailyData[0].pop || 0 * 100)} %
             </p>
           </div>
         </div>
@@ -198,7 +177,7 @@ export default function CurrentCard({
               <p className="font-medium">
                 {formatUnixTimestamp(
                   currentData?.sunrise as number,
-                  location.timezone,
+                  location?.timezone as string,
                   "HH:mm"
                 )}
               </p>
@@ -215,7 +194,7 @@ export default function CurrentCard({
               <p className="font-medium">
                 {formatUnixTimestamp(
                   currentData?.sunset as number,
-                  location.timezone,
+                  location?.timezone as string,
                   "HH:mm"
                 )}
               </p>
